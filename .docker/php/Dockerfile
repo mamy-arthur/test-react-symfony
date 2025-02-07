@@ -56,5 +56,8 @@ RUN apt-get update && \
 
 RUN docker-php-ext-install bcmath
 RUN docker-php-ext-install intl
+
+RUN apt-get install -y libcurl4-openssl-dev pkg-config libssl-dev
+
 RUN pecl install mongodb \
     && docker-php-ext-enable mongodb
