@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+  nginx:
+    build: ./.docker/nginx
+    container_name: dilypse_nginx
+    ports:
+      - 80:80
+    depends_on:
+        - php_api
+    volumes:
+      - .:/home/wwwroot/dilypse
+      - ./.docker/nginx/config:/etc/nginx
+    networks:
+      - dilypse_net
+
+  nodejs_front:
+    build:
+      context: ./.docker/nodejs
+    container_name: dilypse_nodejs
+    user: "${UID}:${GID}"
+    volumes:
+      - ./front:/app
+    environment:
+      HOST: '0.0.0.0'
+      NODE_ENV: ${NODE_ENV:-production}
+    networks:
+      - dilypse_net
+
+  php_api:
+    build:
+      context: ./.docker/php
+    container_name: dilypse_php
+    user: "${UID}:${GID}"
+    volumes:
+      - ./api:/home/wwwroot/dilypse
+    depends_on:
+      - mongodb
+    environment:
+      APP_ENV: ${API_ENV}
+    networks:
+      - dilypse_net
+
+  mongodb:
+    image: mongo:6
+    container_name: dilypse_mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./.docker/mongodb/data:/data/db
+    networks:
+      - dilypse_net
+
+networks:
+  dilypse_net:
+    driver: bridge
