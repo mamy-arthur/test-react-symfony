@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use App\Document\User;
 use FOS\RestBundle\Controller\ControllerTrait;
@@ -30,9 +29,6 @@ class AuthController
 
     private function generateToken(User $user): string
     {
-        // Générer un token JWT ici
-        // Vous pouvez utiliser le service Lexik JWT pour générer le token
-        // Exemple: $token = $this->jwtManager->create($user);
-        return 'your_jwt_token';
+        return '';
     }
 }

@@ -82,7 +82,9 @@ class ProductController
         }
         $data = json_decode($request->getContent(), true);
         $this->productManager->updateProduct($product, $data);
-        return $this->handleView($this->view($product, Response::HTTP_OK));
+        return $this->handleView($this->view([
+            'message' => 'Produit mis à jour avec succès'
+        ], Response::HTTP_OK));
     }
 
     /**
@@ -99,9 +101,11 @@ class ProductController
                 'error' => 'Produit non trouvé'
             ], Response::HTTP_NOT_FOUND));
         }
+        $id = $product->getId();
         $this->productManager->deleteProduct($product);
         return $this->handleView($this->view([
-            'message' => 'Produit supprimé avec succès'
-        ], Response::HTTP_NO_CONTENT));
+            'message' => 'Produit supprimé avec succès',
+            'id' => $id
+        ], Response::HTTP_OK));
     }
 }
