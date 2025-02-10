@@ -61,3 +61,10 @@ RUN apt-get install -y libcurl4-openssl-dev pkg-config libssl-dev
 
 RUN pecl install mongodb \
     && docker-php-ext-enable mongodb
+
+CMD if [ $APP_ENV = 'prod' ]; \
+then \
+    ./install.prod.sh; \
+else \
+    ./install.dev.sh; \
+fi; php-fpm;

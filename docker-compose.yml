@@ -45,8 +45,8 @@ services:
     container_name: dilypse_mongodb
     restart: always
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=admin1234
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER:-mongodb}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD:-changeme}
     ports:
       - "27017:27017"
     volumes:
