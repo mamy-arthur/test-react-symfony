@@ -46,13 +46,17 @@ export default function DashboardLayout() {
                 </Toolbar>
                 <Box sx={{ overflow: "auto" }}>
                     <List>
-                        <ListItemButton component={NavLink} to="/" activeClassName="Mui-selected">
-                            <ListItemIcon><DashboardIcon /></ListItemIcon>
-                            {open && <ListItemText primary="Dashboard" />}
+                        <ListItemButton>
+                            <NavLink to="/">
+                                <ListItemIcon><DashboardIcon /></ListItemIcon>
+                                {open && <ListItemText primary="Dashboard" />}
+                            </NavLink>
                         </ListItemButton>
-                        <ListItemButton component={NavLink} to="/users" activeClassName="Mui-selected">
-                            <ListItemIcon><PeopleIcon /></ListItemIcon>
-                            {open && <ListItemText primary="Utilisateurs" />}
+                        <ListItemButton>
+                            <NavLink to="/users">
+                                <ListItemIcon><PeopleIcon /></ListItemIcon>
+                                {open && <ListItemText primary="Utilisateurs" />}
+                            </NavLink>
                         </ListItemButton>
                     </List>
                 </Box>
