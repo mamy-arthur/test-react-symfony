@@ -8,7 +8,7 @@ EXPOSE 3000
 
 CMD if [ $NODE_ENV = 'prod' ]; \
 then \
-   yarn; yarn run dev --host; \
+   yarn; yarn build; yarn dev;\
 else \
-    yarn; yarn run dev --host; \
+    yarn; yarn dev; \
 fi;

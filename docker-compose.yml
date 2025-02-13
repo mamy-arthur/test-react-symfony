@@ -10,6 +10,8 @@ services:
     volumes:
       - .:/home/wwwroot/dilypse
       - ./.docker/nginx/config:/etc/nginx
+    environment:
+      APP_ENV: ${API_ENV}
     networks:
       - dilypse_net
 
