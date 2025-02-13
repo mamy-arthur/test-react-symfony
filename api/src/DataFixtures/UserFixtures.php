@@ -2,18 +2,33 @@
 
 namespace App\DataFixtures;
 
+use App\Document\FixtureLog;
 use App\Document\User;
+use Common\Fixture\OneShotFixtureInterface;
+use Common\Fixture\OneShotFixtureTrait;
 use Doctrine\Bundle\MongoDBBundle\Fixture\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserFixtures extends Fixture
+class UserFixtures extends Fixture implements OneShotFixtureInterface
 {
-    public function __construct(private UserPasswordHasherInterface $passwordHasher)
+    use OneShotFixtureTrait;
+
+    public function __construct(private UserPasswordHasherInterface $passwordHasher, private LoggerInterface $logger)
     {}
 
     public function load(ObjectManager $manager): void
     {
+        $fixtureName = self::class;
+
+        if ($this->isFixtureAlreadyRun($manager, FixtureLog::class)) {
+            $this->logger->warning(
+                "The fixture current '$fixtureName' has already been registered, it won't be executed then.",
+            );
+            return;
+        }
+
         $admin = new User();
         $admin->setEmail('admin@app.ad');
         $admin->setPassword($this->passwordHasher->hashPassword($admin, 'Something1234#'));
@@ -27,5 +42,9 @@ class UserFixtures extends Fixture
         $manager->persist($user);
 
         $manager->flush();
+
+        $this->logger->info('Fixture done.');
+
+        $this->registerFixture($manager, FixtureLog::class, $this->logger);
     }
 }

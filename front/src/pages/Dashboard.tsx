@@ -33,7 +33,7 @@ export function Dashboard() {
         setOpenModal(true);
     };
 
-    const handleClose = (e: any, reason: any) => {
+    const handleClose = (reason: any) => {
         if (reason === 'clickaway') return;
         setOpen(false);
     };
